@@ -1,6 +1,11 @@
 import styles from "./css/colorBar.module.css";
 
-export default function ColorBar({ players }: { players: string[] }) {
+interface ColorBarProps {
+    playerOneGetColor: () => string;
+    playerTwoGetColor: () => string;
+}
+
+export default function ColorBar(props: ColorBarProps) {
     let colors = [
         "#d9c027",
         "#3f97d1",
@@ -11,37 +16,37 @@ export default function ColorBar({ players }: { players: string[] }) {
     ];
 
     function handleYellow() {
-        if (players[0] !== colors[0] && players[1] !== colors[0]) {
+        if (props.playerOneGetColor() !== colors[0] && props.playerTwoGetColor() !== colors[0]) {
             console.log("yellow");
         }
     }
 
     function handleBlue() {
-        if (players[0] !== colors[1] && players[1] !== colors[1]) {
+        if (props.playerOneGetColor() !== colors[1] && props.playerTwoGetColor() !== colors[1]) {
             console.log("blue");
         }
     }
 
     function handleGreen() {
-        if (players[0] !== colors[2] && players[1] !== colors[2]) {
+        if (props.playerOneGetColor() !== colors[2] && props.playerTwoGetColor() !== colors[2]) {
             console.log("green");
         }
     }
 
     function handlePurple() {
-        if (players[0] !== colors[3] && players[1] !== colors[3]) {
+        if (props.playerOneGetColor() !== colors[3] && props.playerTwoGetColor() !== colors[3]) {
             console.log("purple");
         }
     }
 
     function handleRed() {
-        if (players[0] !== colors[4] && players[1] !== colors[4]) {
+        if (props.playerOneGetColor() !== colors[4] && props.playerTwoGetColor() !== colors[4]) {
             console.log("red");
         }
     }
 
     function handleBlack() {
-        if (players[0] !== colors[5] && players[1] !== colors[5]) {
+        if (props.playerOneGetColor() !== colors[5] && props.playerTwoGetColor() !== colors[5]) {
             console.log("black");
         }
     }
@@ -55,7 +60,7 @@ export default function ColorBar({ players }: { players: string[] }) {
                     style={{
                         backgroundColor: colors[0],
                         opacity:
-                            players[0] === colors[0] || players[1] === colors[0]
+                            props.playerOneGetColor() === colors[0] || props.playerTwoGetColor() === colors[0]
                                 ? 0.1
                                 : 1,
                     }}
@@ -67,7 +72,7 @@ export default function ColorBar({ players }: { players: string[] }) {
                     style={{
                         backgroundColor: colors[1],
                         opacity:
-                            players[0] === colors[1] || players[1] === colors[1]
+                            props.playerOneGetColor() === colors[1] || props.playerTwoGetColor() === colors[1]
                                 ? 0.1
                                 : 1,
                     }}
@@ -79,7 +84,7 @@ export default function ColorBar({ players }: { players: string[] }) {
                     style={{
                         backgroundColor: colors[2],
                         opacity:
-                            players[0] === colors[2] || players[1] === colors[2]
+                            props.playerOneGetColor() === colors[2] || props.playerTwoGetColor() === colors[2]
                                 ? 0.1
                                 : 1,
                     }}
@@ -91,7 +96,7 @@ export default function ColorBar({ players }: { players: string[] }) {
                     style={{
                         backgroundColor: colors[3],
                         opacity:
-                            players[0] === colors[3] || players[1] === colors[3]
+                            props.playerOneGetColor() === colors[3] || props.playerTwoGetColor() === colors[3]
                                 ? 0.1
                                 : 1,
                     }}
@@ -103,7 +108,7 @@ export default function ColorBar({ players }: { players: string[] }) {
                     style={{
                         backgroundColor: colors[4],
                         opacity:
-                            players[0] === colors[4] || players[1] === colors[4]
+                            props.playerOneGetColor() === colors[4] || props.playerTwoGetColor() === colors[4]
                                 ? 0.1
                                 : 1,
                     }}
@@ -115,7 +120,7 @@ export default function ColorBar({ players }: { players: string[] }) {
                     style={{
                         backgroundColor: colors[5],
                         opacity:
-                            players[0] === colors[5] || players[1] === colors[5]
+                            props.playerOneGetColor() === colors[5] || props.playerTwoGetColor() === colors[5]
                                 ? 0.1
                                 : 1,
                     }}
