@@ -19,7 +19,6 @@ class Player {
 
     setColor(color: string) {
         this.color = color;
-        console.log(this.color);
     }
 
     getColor() {

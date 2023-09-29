@@ -1,99 +1,155 @@
-import React, { useEffect } from "react";
 import Cell from "./Cell";
 import styles from "./css/board.module.css";
+import { CellProps } from "./Cell";
 
-export default function Board() {
-    let colors = [
-        "#d9c027",
-        "#3f97d1",
-        "#92b956",
-        "#6a5293",
-        "#d3324d",
-        "#494949",
-    ];
-    const BOARD_WIDTH = 7;
-    const BOARD_HEIGHT = 6;
+interface BoardProps {
+    playerOneSetColor: (color: string) => void;
+    playerTwoSetColor: (color: string) => void;
+}
 
-    let cells: Cell[][] = [];
+class Board {
+    playerOneSetColor: (color: string) => void;
+    playerTwoSetColor: (color: string) => void;
+    board: Cell[][] = [];
+    BOARD_WIDTH = 7;
+    BOARD_HEIGHT = 6;
+    COLORS = ["#d9c027", "#3f97d1", "#92b956", "#6a5293", "#d3324d", "#494949"];
 
-    for (let i = 0; i <= BOARD_HEIGHT; i++) {
-        cells[i] = [];
-        for (let j = 0; j <= BOARD_WIDTH; j++) {
-            let tempKey = `${i}${j}`;
-            let availableColors = colors.filter((color) => {
-                // main cases
-                if (i > 0) {
-                    if (cells[i - 1][j].getColor() === color) {
-                        return false;
+    constructor(props: BoardProps) {
+        this.playerOneSetColor = props.playerOneSetColor;
+        this.playerTwoSetColor = props.playerTwoSetColor;
+        this.board = this.createBoard();
+    }
+
+    createBoard() {
+        let cells: Cell[][] = [];
+
+        for (let i = 0; i <= this.BOARD_HEIGHT; i++) {
+            cells[i] = [];
+            for (let j = 0; j <= this.BOARD_WIDTH; j++) {
+                let tempKey = `${i}${j}`;
+                let availableColors = this.COLORS.filter((color) => {
+                    // main cases
+                    if (i > 0) {
+                        if (cells[i - 1][j].getColor() === color) {
+                            return false;
+                        }
                     }
-                }
-                if (j > 0) {
-                    if (cells[i][j - 1].getColor() === color) {
-                        return false;
+                    if (j > 0) {
+                        if (cells[i][j - 1].getColor() === color) {
+                            return false;
+                        }
                     }
-                }
 
-                // edge cases
-                if (i === 1 && j === 7) {
-                    if (cells[i - 1][j - 1].getColor() === color) {
-                        return false;
+                    // edge cases
+                    if (i === 1 && j === 7) {
+                        if (cells[i - 1][j - 1].getColor() === color) {
+                            return false;
+                        }
                     }
-                }
 
-                if (i === 6 && j === 1) {
-                    if (cells[i - 1][j - 1].getColor() === color) {
-                        return false;
+                    if (i === 6 && j === 1) {
+                        if (cells[i - 1][j - 1].getColor() === color) {
+                            return false;
+                        }
                     }
+
+                    if (i === 6 && j === 0) {
+                        if (cells[0][7].getColor() === color) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                });
+
+                let tempColor =
+                    availableColors[
+                        Math.floor(Math.random() * availableColors.length)
+                    ];
+
+                cells[i][j] = new Cell({
+                    location: tempKey,
+                    color: tempColor,
+                    captured:
+                        (i === 6 && j === 0) || (i === 0 && j === 7)
+                            ? true
+                            : false,
+                    capturedBy:
+                        (i === 6 && j === 0) || (i === 0 && j === 7)
+                            ? i === 6
+                                ? "human"
+                                : "bot"
+                            : undefined,
+                });
+
+                if (i === 0 && j === 7) {
+                    this.playerTwoSetColor(tempColor);
                 }
 
                 if (i === 6 && j === 0) {
-                    if (cells[0][7].getColor() === color) {
-                        return false;
-                    }
+                    this.playerOneSetColor(tempColor);
                 }
-
-                return true;
-            });
-
-            let tempColor = availableColors[
-                Math.floor(Math.random() * availableColors.length)
-            ];
-
-            cells[i][j] = new Cell({
-                location: tempKey,
-                color: tempColor,
-                captured: i === 6 && j === 0 ? true : false,
-            });
-
-            // if (i === 0 && j === 7) {
-            //     playerTwoSetColor(tempColor);
-            // }
-
-            // if (i === 6 && j === 0) {
-            //     playerOneSetColor(tempColor);
-            // }
+            }
         }
+
+        return cells;
     }
 
-    // useEffect(() => {
-    //     fillBoard();
-    //     // playerOneSetColor(cells[0][7]?.getColor());
-    //     // playerTwoSetColor(cells[6][0]?.getColor());
-    // // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
+    changeCells(props: CellProps[]) {
+        props.forEach((cell) => {
+            this.board[Number(cell.location[0])][Number(cell.location[0])].setColor(cell.color);
+            this.board[Number(cell.location[0])][Number(cell.location[0])].setCaptured(cell.captured as boolean);
+            this.board[Number(cell.location[0])][Number(cell.location[0])].setCapturedBy(cell.capturedBy as string);
+        });
+    }
 
-    return (
-        <div className={styles.board}>
-            {cells.map((row, rowIndex) => (
-                <div
-                    key={rowIndex.toString()}
-                    style={{ display: "flex", flexDirection: "row" }}
-                >
-                    {row.map((cell, cellIndex) => (
-                        <div key={cellIndex.toString()}>{cell.getView()}</div>
-                    ))}
-                </div>
-            ))}
-        </div>
-    );
+    getJSON() {
+        let boardJSON: {
+            rowIndex: {
+                location: string;
+                color: string;
+                captured: boolean | undefined;
+                capturedBy: string | undefined;
+            }[];
+        }[] = [];
+        let rowIndex = 0;
+
+        this.board.forEach((row) => {
+            let tempRow: {
+                location: string;
+                color: string;
+                captured: boolean | undefined;
+                capturedBy: string | undefined;
+            }[] = [];
+            row.forEach((cell) => {
+                tempRow.push(cell.getJSON());
+            });
+            boardJSON.push({ rowIndex: tempRow });
+            rowIndex++;
+        });
+
+        return { board: boardJSON };
+    }
+
+    getView() {
+        return (
+            <div className={styles.board}>
+                {this.board.map((row, rowIndex) => (
+                    <div
+                        key={rowIndex.toString()}
+                        style={{ display: "flex", flexDirection: "row" }}
+                    >
+                        {row.map((cell, cellIndex) => (
+                            <div key={cellIndex.toString()}>
+                                {cell.getView()}
+                            </div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+        );
+    }
 }
+
+export default Board;
