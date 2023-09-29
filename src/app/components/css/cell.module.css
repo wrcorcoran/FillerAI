@@ -1,0 +1,25 @@
+.cellNonCaptured {
+  width: 8vh;
+  height: 8vh;
+  border-style: solid;
+  border-width: thin;
+  border-color: black;
+}
+
+.cellCaptured {
+  width: 8vh;
+  height: 8vh;
+  animation: blinker 2s linear infinite;
+}
+
+@keyframes blinker {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

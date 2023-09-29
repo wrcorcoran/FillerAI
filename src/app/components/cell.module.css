@@ -1,9 +1,0 @@
-.rectangle {
-    display: inline-block;
-    width: 8vh;
-    height: 8vh;
-    background-color: #6a5293;
-    border-style: solid;
-    border-width: thin;
-    border-color: black;
-}
