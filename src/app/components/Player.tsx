@@ -43,6 +43,29 @@ class Player {
     incrementScore(score: number) {
         this.score += score;
     }
+
+    getJSON() {
+        let tempMap: {
+            [rowIndex: number]: { [colIndex: number]: Boolean }[];
+        }[] = [];
+        let rowIndex = 0;
+
+        this.personalMap.forEach((row) => {
+            let colIndex = 0;
+            let tempRow: { [colIndex: number]: Boolean }[] = [];
+            row.forEach((cell) => {
+                tempRow.push({
+                    [colIndex]: cell,
+                });
+                colIndex++;
+            });
+            tempMap.push({ [rowIndex]: tempRow });
+            rowIndex++;
+        });
+
+        let tempJSON = { color: this.color, score: this.score, map: tempMap };
+        return { [this.type]: tempJSON };
+    }
 }
 
 export default Player;

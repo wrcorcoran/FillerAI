@@ -1,14 +1,14 @@
 .cellNonCaptured {
-  width: 8vh;
-  height: 8vh;
+  width: 5vw;
+  height: 5vw;
   border-style: solid;
   border-width: thin;
   border-color: black;
 }
 
 .cellCaptured {
-  width: 8vh;
-  height: 8vh;
+  width: 5vw;
+  height: 5vw;
   animation: blinker 2s linear infinite;
 }
 

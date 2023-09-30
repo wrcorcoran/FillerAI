@@ -98,34 +98,48 @@ class Board {
 
     changeCells(props: CellProps[]) {
         props.forEach((cell) => {
-            this.board[Number(cell.location[0])][Number(cell.location[0])].setColor(cell.color);
-            this.board[Number(cell.location[0])][Number(cell.location[0])].setCaptured(cell.captured as boolean);
-            this.board[Number(cell.location[0])][Number(cell.location[0])].setCapturedBy(cell.capturedBy as string);
+            this.board[Number(cell.location[0])][
+                Number(cell.location[0])
+            ].setColor(cell.color);
+            this.board[Number(cell.location[0])][
+                Number(cell.location[0])
+            ].setCaptured(cell.captured as boolean);
+            this.board[Number(cell.location[0])][
+                Number(cell.location[0])
+            ].setCapturedBy(cell.capturedBy as string);
         });
     }
 
     getJSON() {
         let boardJSON: {
-            rowIndex: {
-                location: string;
-                color: string;
-                captured: boolean | undefined;
-                capturedBy: string | undefined;
+            [rowIndex: number]: {
+                [colIndex: number]: {
+                    location: string;
+                    color: string;
+                    captured: boolean | undefined;
+                    capturedBy: string | undefined;
+                };
             }[];
         }[] = [];
         let rowIndex = 0;
 
         this.board.forEach((row) => {
             let tempRow: {
-                location: string;
-                color: string;
-                captured: boolean | undefined;
-                capturedBy: string | undefined;
+                [colIndex: number]: {
+                    location: string;
+                    color: string;
+                    captured: boolean | undefined;
+                    capturedBy: string | undefined;
+                };
             }[] = [];
+
+            let colCount = 0;
+
             row.forEach((cell) => {
-                tempRow.push(cell.getJSON());
+                tempRow.push({ [colCount]: cell.getJSON() });
+                colCount++;
             });
-            boardJSON.push({ rowIndex: tempRow });
+            boardJSON.push({ [rowIndex]: tempRow });
             rowIndex++;
         });
 

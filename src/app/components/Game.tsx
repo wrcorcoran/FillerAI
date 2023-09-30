@@ -7,14 +7,14 @@ import styles from "./css/game.module.css";
 export default function Game() {
     let human = new Player({
         color: "white",
-        personalMap: [[]],
+        personalMap: Array(7).fill(Array(8).fill(false)),
         score: 1,
         type: "human",
     });
 
     let bot = new Player({
         color: "white",
-        personalMap: [[]],
+        personalMap: Array(7).fill(Array(8).fill(false)),
         score: 1,
         type: "bot",
     });
@@ -35,30 +35,26 @@ export default function Game() {
         return bot.getColor();
     }
 
-    let board = new Board({playerOneSetColor, playerTwoSetColor});
+    let board = new Board({ playerOneSetColor, playerTwoSetColor });
 
     console.log(JSON.stringify(board.getJSON()));
+    console.log(JSON.stringify(human.getJSON()));
 
     return (
-        <main className={styles.main}>
-            <h1 className={styles.title} style={{ paddingBottom: "5%" }}>
-                FillerAI
-            </h1>
-            <div className={styles.board_score}>
-                <Scoreboard player="You" score={human.getScore()} />
+        <div className={styles.board_score}>
+            <Scoreboard player="You" score={human.getScore()} />
 
-                <div className={styles.board}>
-                    {board.getView()}
-                    <div style={{ marginTop: "5%" }}>
-                        <ColorBar
-                            playerOneGetColor={playerOneGetColor}
-                            playerTwoGetColor={playerTwoGetColor}
-                        />
-                    </div>
+            <div className={styles.board}>
+                {board.getView()}
+                <div style={{ marginTop: "5%" }}>
+                    <ColorBar
+                        playerOneGetColor={playerOneGetColor}
+                        playerTwoGetColor={playerTwoGetColor}
+                    />
                 </div>
-
-                <Scoreboard player="Bot" score={bot.getScore()} />
             </div>
-        </main>
+
+            <Scoreboard player="Bot" score={bot.getScore()} />
+        </div>
     );
 }
