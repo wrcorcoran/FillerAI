@@ -15,6 +15,11 @@ class Player {
         this.personalMap = props.personalMap;
         this.score = props.score;
         this.type = props.type;
+        if (this.type === "bot") {               
+            this.addToMap("08")
+        } else {
+            this.addToMap("60");
+        }
     }
 
     setColor(color: string) {
