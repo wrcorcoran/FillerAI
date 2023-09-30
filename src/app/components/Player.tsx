@@ -3,6 +3,7 @@ interface PlayerProps {
     personalMap: Boolean[][];
     score: number;
     type: string;
+    active: boolean;
 }
 
 class Player {
@@ -10,16 +11,18 @@ class Player {
     color: string;
     personalMap: Boolean[][];
     score: number;
+    active: boolean;
     constructor(props: PlayerProps) {
         this.color = props.color;
         this.personalMap = props.personalMap;
         this.score = props.score;
         this.type = props.type;
-        if (this.type === "bot") {               
-            this.addToMap("08")
+        if (this.type === "bot") {
+            this.addToMap("08");
         } else {
             this.addToMap("60");
         }
+        this.active = props.active;
     }
 
     setColor(color: string) {
@@ -28,6 +31,14 @@ class Player {
 
     getColor() {
         return this.color;
+    }
+
+    setActive(active: boolean) {
+        this.active = active;
+    }
+
+    getActive() {
+        return this.active;
     }
 
     addToMap(location: string) {
@@ -43,6 +54,10 @@ class Player {
 
     getScore() {
         return this.score;
+    }
+
+    getType() {
+        return this.type;
     }
 
     incrementScore(score: number) {

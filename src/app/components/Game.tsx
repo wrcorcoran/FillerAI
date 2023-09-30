@@ -3,21 +3,13 @@ import ColorBar from "./ColorBar";
 import Player from "./Player";
 import Scoreboard from "./Scoreboard";
 import styles from "./css/game.module.css";
+import { decideFirst, createPlayers } from "./GameFunctions";
 
 export default function Game() {
-    let human = new Player({
-        color: "white",
-        personalMap: Array(7).fill(Array(8).fill(false)),
-        score: 1,
-        type: "human",
-    });
-
-    let bot = new Player({
-        color: "white",
-        personalMap: Array(7).fill(Array(8).fill(false)),
-        score: 1,
-        type: "bot",
-    });
+    let opening = decideFirst();
+    let players = createPlayers(opening);
+    let human = players[0];
+    let bot = players[1];
 
     function playerOneSetColor(color: string) {
         human.setColor(color);
@@ -37,14 +29,14 @@ export default function Game() {
 
     let board = new Board({ playerOneSetColor, playerTwoSetColor });
 
-    console.log(JSON.stringify(board.getJSON()));
-    console.log(JSON.stringify(human.getJSON()));
-
     return (
         <div className={styles.board_score}>
             <Scoreboard player="You" score={human.getScore()} />
 
-            <div className={styles.board}>
+            <div
+                className={styles.board}
+                style={{ opacity: human.getActive() ? "100%" : "20%" }}
+            >
                 {board.getView()}
                 <div style={{ marginTop: "5%" }}>
                     <ColorBar

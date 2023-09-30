@@ -29,15 +29,14 @@ I've played Filler enough to consider myself pretty good at it, however, I'd con
 2. There is no AI, yet!
 
 ## Features To Add
-1. Player must have a currently active flag 
-2. Randomly selecting starting player
-3. Allow user to select a color
-4. Have bot randomly pick a color (for now)
-5. Send JSON to Python script (board + player states)
-6. Implement minimax algorithm
-7. Implement alpha-beta pruning
-8. Implement iterative deepening
-9. Test!
+1. Allow user to select a color
+2. Have bot randomly pick a color (for now)
+3. Check for win condition
+4. Send JSON to Python script (board + player states)
+5. Implement minimax algorithm
+6. Implement alpha-beta pruning
+7. Implement iterative deepening
+8. Test!
 
 ## Acknowledgements
 1. GamePigeon for the original game
