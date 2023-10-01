@@ -3,7 +3,20 @@ import ColorBar from "./ColorBar";
 import Player from "./Player";
 import Scoreboard from "./Scoreboard";
 import styles from "./css/game.module.css";
-import { decideFirst, createPlayers } from "./GameFunctions";
+import {
+    decideFirst,
+    createPlayers,
+    humanChooseColor,
+    botChooseColor,
+    swapActivePlayer,
+    findSpaces,
+    validMove,
+    changeBoardState,
+    updateScore,
+    checkForWinner,
+    checkForTie,
+    hasWinner,
+} from "./GameFunctions";
 
 export default function Game() {
     let opening = decideFirst();
@@ -11,12 +24,20 @@ export default function Game() {
     let human = players[0];
     let bot = players[1];
 
-    function playerOneSetColor(color: string) {
+    let board = new Board({ humanSetInitialColor, botSetInitialColor });
+
+    function humanSetInitialColor(color: string) {
         human.setColor(color);
+        console.log("human color set", human.getColor());
     }
 
-    function playerTwoSetColor(color: string) {
+    function botSetInitialColor(color: string) {
         bot.setColor(color);
+        console.log("bot color set", bot.getColor());
+    }
+
+    function playerOneSetColor(color: string) {
+        humanChooseColor(human, color, bot, board);
     }
 
     function playerOneGetColor() {
@@ -26,8 +47,6 @@ export default function Game() {
     function playerTwoGetColor() {
         return bot.getColor();
     }
-
-    let board = new Board({ playerOneSetColor, playerTwoSetColor });
 
     return (
         <div className={styles.board_score}>
@@ -42,6 +61,7 @@ export default function Game() {
                     <ColorBar
                         playerOneGetColor={playerOneGetColor}
                         playerTwoGetColor={playerTwoGetColor}
+                        playerOneSetColor={playerOneSetColor}
                     />
                 </div>
             </div>

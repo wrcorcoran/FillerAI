@@ -3,9 +3,12 @@ import styles from "./css/colorBar.module.css";
 interface ColorBarProps {
     playerOneGetColor: () => string;
     playerTwoGetColor: () => string;
+    playerOneSetColor: (color: string) => void;
 }
 
 export default function ColorBar(props: ColorBarProps) {
+    console.log(props.playerOneGetColor(), props.playerTwoGetColor());
+
     let colors = [
         "#d9c027",
         "#3f97d1",
@@ -16,38 +19,68 @@ export default function ColorBar(props: ColorBarProps) {
     ];
 
     function handleYellow() {
-        if (props.playerOneGetColor() !== colors[0] && props.playerTwoGetColor() !== colors[0]) {
-            console.log("yellow");
+        console.log(props.playerOneGetColor(), props.playerTwoGetColor());
+
+        if (
+            props.playerOneGetColor() !== colors[0] &&
+            props.playerTwoGetColor() !== colors[0]
+        ) {
+            props.playerOneSetColor(colors[0]);
         }
     }
 
     function handleBlue() {
-        if (props.playerOneGetColor() !== colors[1] && props.playerTwoGetColor() !== colors[1]) {
-            console.log("blue");
+        console.log(props.playerOneGetColor(), props.playerTwoGetColor());
+
+        if (
+            props.playerOneGetColor() !== colors[1] &&
+            props.playerTwoGetColor() !== colors[1]
+        ) {
+            props.playerOneSetColor(colors[1]);
         }
     }
 
     function handleGreen() {
-        if (props.playerOneGetColor() !== colors[2] && props.playerTwoGetColor() !== colors[2]) {
-            console.log("green");
+        console.log(props.playerOneGetColor(), props.playerTwoGetColor());
+
+        if (
+            props.playerOneGetColor() !== colors[2] &&
+            props.playerTwoGetColor() !== colors[2]
+        ) {
+            props.playerOneSetColor(colors[2]);
         }
     }
 
     function handlePurple() {
-        if (props.playerOneGetColor() !== colors[3] && props.playerTwoGetColor() !== colors[3]) {
-            console.log("purple");
+        console.log(props.playerOneGetColor(), props.playerTwoGetColor());
+
+        if (
+            props.playerOneGetColor() !== colors[3] &&
+            props.playerTwoGetColor() !== colors[3]
+        ) {
+            props.playerOneSetColor(colors[3]);
         }
     }
 
     function handleRed() {
-        if (props.playerOneGetColor() !== colors[4] && props.playerTwoGetColor() !== colors[4]) {
-            console.log("red");
+        console.log(props.playerOneGetColor(), props.playerTwoGetColor());
+
+        if (
+            props.playerOneGetColor() !== colors[4] &&
+            props.playerTwoGetColor() !== colors[4]
+        ) {
+            props.playerOneSetColor(colors[4]);
         }
     }
 
     function handleBlack() {
-        if (props.playerOneGetColor() !== colors[5] && props.playerTwoGetColor() !== colors[5]) {
-            console.log("black");
+        console.log(props.playerOneGetColor(), props.playerTwoGetColor());
+
+        if (
+            props.playerOneGetColor() !== colors[5] &&
+            props.playerTwoGetColor() !== colors[5]
+        ) {
+            props.playerOneSetColor(colors[5]);
         }
     }
 
@@ -60,7 +93,8 @@ export default function ColorBar(props: ColorBarProps) {
                     style={{
                         backgroundColor: colors[0],
                         opacity:
-                            props.playerOneGetColor() === colors[0] || props.playerTwoGetColor() === colors[0]
+                            props.playerOneGetColor() === colors[0] ||
+                            props.playerTwoGetColor() === colors[0]
                                 ? 0.1
                                 : 1,
                     }}
@@ -72,7 +106,8 @@ export default function ColorBar(props: ColorBarProps) {
                     style={{
                         backgroundColor: colors[1],
                         opacity:
-                            props.playerOneGetColor() === colors[1] || props.playerTwoGetColor() === colors[1]
+                            props.playerOneGetColor() === colors[1] ||
+                            props.playerTwoGetColor() === colors[1]
                                 ? 0.1
                                 : 1,
                     }}
@@ -84,7 +119,8 @@ export default function ColorBar(props: ColorBarProps) {
                     style={{
                         backgroundColor: colors[2],
                         opacity:
-                            props.playerOneGetColor() === colors[2] || props.playerTwoGetColor() === colors[2]
+                            props.playerOneGetColor() === colors[2] ||
+                            props.playerTwoGetColor() === colors[2]
                                 ? 0.1
                                 : 1,
                     }}
@@ -96,7 +132,8 @@ export default function ColorBar(props: ColorBarProps) {
                     style={{
                         backgroundColor: colors[3],
                         opacity:
-                            props.playerOneGetColor() === colors[3] || props.playerTwoGetColor() === colors[3]
+                            props.playerOneGetColor() === colors[3] ||
+                            props.playerTwoGetColor() === colors[3]
                                 ? 0.1
                                 : 1,
                     }}
@@ -108,7 +145,8 @@ export default function ColorBar(props: ColorBarProps) {
                     style={{
                         backgroundColor: colors[4],
                         opacity:
-                            props.playerOneGetColor() === colors[4] || props.playerTwoGetColor() === colors[4]
+                            props.playerOneGetColor() === colors[4] ||
+                            props.playerTwoGetColor() === colors[4]
                                 ? 0.1
                                 : 1,
                     }}
@@ -120,7 +158,8 @@ export default function ColorBar(props: ColorBarProps) {
                     style={{
                         backgroundColor: colors[5],
                         opacity:
-                            props.playerOneGetColor() === colors[5] || props.playerTwoGetColor() === colors[5]
+                            props.playerOneGetColor() === colors[5] ||
+                            props.playerTwoGetColor() === colors[5]
                                 ? 0.1
                                 : 1,
                     }}

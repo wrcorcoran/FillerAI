@@ -1,3 +1,4 @@
+import Board from "./Board";
 import Player from "./Player";
 
 let hasWinner = false;
@@ -23,23 +24,107 @@ function createPlayers(opening: string) {
         active: opening === "bot" ? true : false,
     });
 
+    console.log("players made");
+
     return [human, bot];
 }
 
-function humanChooseColor() {
-    // TO_DO
+function humanChooseColor(
+    human: Player,
+    color: string,
+    bot: Player,
+    board: Board
+) {
+    console.log(color);
+    human.setColor(color);
+    let spaces = findSpaces(board, human, color);
+    console.log(spaces);
+    let num = changeBoardState(spaces, board, color, human);
+    updateScore(human, num);
+    swapActivePlayer([human, bot]);
 }
 
-function botChooseColor() {
-    // TO_DO
+function botChooseColor(
+    colors: string[],
+    board: Board,
+    bot: Player,
+    human: Player
+) {
+    let availableColors = colors.filter(
+        (color) => color !== bot.getColor() || color !== human.getColor()
+    );
+
+    let color =
+        availableColors[Math.floor(Math.random() * availableColors.length)];
+
+    let spaces = findSpaces(board, bot, color);
+    let num = changeBoardState(spaces, board, color, bot);
+    updateScore(bot, num);
+    swapActivePlayer([human, bot]);
 }
 
-function changeBoardState(spaces: any, player: any, color: string) {
-    // TO_DO
+function swapActivePlayer(players: Player[]) {
+    players[0].active = !players[0].active;
+    players[1].active = !players[1].active;
 }
 
-function updateScore(player: any) {
-    // TO_DO
+function findSpaces(b: Board, p: Player, color: string) {
+    let spaces = [];
+
+    for (let i = 0; i < b.board.length; i++) {
+        for (let j = 0; j < b.board[i].length; j++) {
+            if (validMove(b, p, color, i, j)) {
+                spaces.push([i, j]);
+            }
+        }
+    }
+
+    return spaces;
+}
+
+function validMove(b: Board, p: Player, color: string, i: number, j: number) {
+    if (b.board[i][j].color === color) {
+        if (i > 0 && String(b.board[i - 1][j].getCapturedBy) === p.getType()) {
+            return true;
+        } else if (
+            i < 6 &&
+            String(b.board[i + 1][j].getCapturedBy) === p.getType()
+        ) {
+            return true;
+        } else if (
+            j > 0 &&
+            String(b.board[i][j - 1].getCapturedBy) === p.getType()
+        ) {
+            return true;
+        } else if (
+            j < 7 &&
+            String(b.board[i][j + 1].getCapturedBy) === p.getType()
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    return false;
+}
+
+function changeBoardState(
+    spaces: any,
+    board: Board,
+    color: string,
+    player: Player
+) {
+    for (let i = 0; i < spaces.length; i++) {
+        board.board[spaces[i][0]][spaces[i][1]].setColor(color);
+        board.board[spaces[i][0]][spaces[i][1]].setCapturedBy(player.getType());
+    }
+
+    return spaces.length;
+}
+
+function updateScore(player: any, num: number) {
+    player.incrementScore(num);
 }
 
 function checkForWinner(players: Player[]) {
@@ -52,4 +137,24 @@ function checkForWinner(players: Player[]) {
     }
 }
 
-export { decideFirst, createPlayers };
+function checkForTie(players: Player[]) {
+    if (players[0].getScore() === 28 && players[1].getScore() === 28) {
+        hasWinner = true;
+        return "tie";
+    }
+}
+
+export {
+    decideFirst,
+    createPlayers,
+    humanChooseColor,
+    botChooseColor,
+    swapActivePlayer,
+    findSpaces,
+    validMove,
+    changeBoardState,
+    updateScore,
+    checkForWinner,
+    checkForTie,
+    hasWinner,
+};

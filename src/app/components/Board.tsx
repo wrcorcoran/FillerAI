@@ -3,21 +3,21 @@ import styles from "./css/board.module.css";
 import { CellProps } from "./Cell";
 
 interface BoardProps {
-    playerOneSetColor: (color: string) => void;
-    playerTwoSetColor: (color: string) => void;
+    humanSetInitialColor: (color: string) => void;
+    botSetInitialColor: (color: string) => void;
 }
 
 class Board {
-    playerOneSetColor: (color: string) => void;
-    playerTwoSetColor: (color: string) => void;
+    humanSetInitialColor: (color: string) => void;
+    botSetInitialColor: (color: string) => void;
     board: Cell[][] = [];
     BOARD_WIDTH = 7;
     BOARD_HEIGHT = 6;
     COLORS = ["#d9c027", "#3f97d1", "#92b956", "#6a5293", "#d3324d", "#494949"];
 
     constructor(props: BoardProps) {
-        this.playerOneSetColor = props.playerOneSetColor;
-        this.playerTwoSetColor = props.playerTwoSetColor;
+        this.humanSetInitialColor = props.humanSetInitialColor;
+        this.botSetInitialColor = props.botSetInitialColor;
         this.board = this.createBoard();
     }
 
@@ -84,14 +84,18 @@ class Board {
                 });
 
                 if (i === 0 && j === 7) {
-                    this.playerTwoSetColor(tempColor);
+                    console.log(tempColor);
+                    this.botSetInitialColor(tempColor);
                 }
 
                 if (i === 6 && j === 0) {
-                    this.playerOneSetColor(tempColor);
+                    console.log(tempColor);
+                    this.humanSetInitialColor(tempColor);
                 }
             }
         }
+
+        console.log("board created");
 
         return cells;
     }
