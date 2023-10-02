@@ -7,15 +7,19 @@ interface ColorBarProps {
 }
 
 export default function ColorBar(props: ColorBarProps) {
-    console.log(props.playerOneGetColor(), props.playerTwoGetColor());
+    console.log(
+        "getting colors:",
+        props.playerOneGetColor(),
+        props.playerTwoGetColor()
+    );
 
     let colors = [
-        "#d9c027",
-        "#3f97d1",
-        "#92b956",
-        "#6a5293",
-        "#d3324d",
-        "#494949",
+        "#d9c027", // yellow
+        "#3f97d1", // blue
+        "#92b956", // green
+        "#6a5293", // purple
+        "#d3324d", // red
+        "#494949", // black
     ];
 
     function handleYellow() {

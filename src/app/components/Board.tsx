@@ -1,23 +1,14 @@
-import Cell from "./Cell";
+import Cell, { CellProps } from "./Cell";
 import styles from "./css/board.module.css";
-import { CellProps } from "./Cell";
-
-interface BoardProps {
-    humanSetInitialColor: (color: string) => void;
-    botSetInitialColor: (color: string) => void;
-}
 
 class Board {
-    humanSetInitialColor: (color: string) => void;
-    botSetInitialColor: (color: string) => void;
     board: Cell[][] = [];
+
     BOARD_WIDTH = 7;
     BOARD_HEIGHT = 6;
     COLORS = ["#d9c027", "#3f97d1", "#92b956", "#6a5293", "#d3324d", "#494949"];
 
-    constructor(props: BoardProps) {
-        this.humanSetInitialColor = props.humanSetInitialColor;
-        this.botSetInitialColor = props.botSetInitialColor;
+    constructor() {
         this.board = this.createBoard();
     }
 
@@ -82,36 +73,36 @@ class Board {
                                 : "bot"
                             : undefined,
                 });
-
-                if (i === 0 && j === 7) {
-                    console.log(tempColor);
-                    this.botSetInitialColor(tempColor);
-                }
-
-                if (i === 6 && j === 0) {
-                    console.log(tempColor);
-                    this.humanSetInitialColor(tempColor);
-                }
             }
         }
-
-        console.log("board created");
 
         return cells;
     }
 
-    changeCells(props: CellProps[]) {
+    async changeCells(props: CellProps[]) {
         props.forEach((cell) => {
+            console.log(cell);
             this.board[Number(cell.location[0])][
-                Number(cell.location[0])
+                Number(cell.location[1])
             ].setColor(cell.color);
             this.board[Number(cell.location[0])][
-                Number(cell.location[0])
+                Number(cell.location[1])
             ].setCaptured(cell.captured as boolean);
             this.board[Number(cell.location[0])][
-                Number(cell.location[0])
+                Number(cell.location[1])
             ].setCapturedBy(cell.capturedBy as string);
+            console.log(
+                this.board[Number(cell.location[0])][Number(cell.location[1])]
+            );
         });
+    }
+
+    getHumanColor() {
+        return this.board[6][0].getColor();
+    }
+
+    getBotColor() {
+        return this.board[0][7].getColor();
     }
 
     getJSON() {

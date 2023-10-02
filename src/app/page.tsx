@@ -2,6 +2,8 @@
 import Game from "./components/Game";
 import styles from "./page.module.css";
 import { IoHelpCircle } from "react-icons/io5";
+import { ReloadContext, ReloadProps } from "./contexts/ReloadContext";
+import { useState } from "react";
 
 export default function Home() {
     function onHelpClick() {
@@ -19,26 +21,35 @@ export default function Home() {
         );
     }
 
+    const [reload, setReload] = useState(true);
+
+    const reloadValues: ReloadProps = {
+        reload: reload,
+        setReload: setReload,
+    };
+
     return (
-        <main>
-            <div className={styles.iconContainer}>
-                <div className={styles.icon} onClick={onHelpClick}>
-                    <IoHelpCircle color="#494949" size={37.5} />
+        <ReloadContext.Provider value={reloadValues}>
+            <main>
+                <div className={styles.iconContainer}>
+                    <div className={styles.icon} onClick={onHelpClick}>
+                        <IoHelpCircle color="#494949" size={37.5} />
+                    </div>
                 </div>
-            </div>
-            <div className={styles.main}>
-                <div className={styles.bar}>
-                    <h1
-                        className={styles.title}
-                        style={{ paddingBottom: "5%" }}
-                    >
-                        FillerAI
-                    </h1>
+                <div className={styles.main}>
+                    <div className={styles.bar}>
+                        <h1
+                            className={styles.title}
+                            style={{ paddingBottom: "5%" }}
+                        >
+                            FillerAI
+                        </h1>
+                    </div>
+                    <div className={styles.game}>
+                        <Game />;
+                    </div>
                 </div>
-                <div className={styles.game}>
-                    <Game />;
-                </div>
-            </div>
-        </main>
+            </main>
+        </ReloadContext.Provider>
     );
 }

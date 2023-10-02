@@ -13,16 +13,25 @@ class Player {
     score: number;
     active: boolean;
     constructor(props: PlayerProps) {
-        this.color = props.color;
-        this.personalMap = props.personalMap;
-        this.score = props.score;
-        this.type = props.type;
-        if (this.type === "bot") {
-            this.addToMap("08");
+        if (props.type === "empty") {
+            this.color = "";
+            this.personalMap = [[]];
+            this.score = 0;
+            this.type = props.type;
+            this.active = false;
+            return;
         } else {
-            this.addToMap("60");
+            this.color = props.color;
+            this.personalMap = props.personalMap;
+            this.score = props.score;
+            this.type = props.type;
+            if (this.type === "bot") {
+                this.addToMap("08");
+            } else {
+                this.addToMap("60");
+            }
+            this.active = props.active;
         }
-        this.active = props.active;
     }
 
     setColor(color: string) {
