@@ -8,9 +8,6 @@
 .square {
   width: 5vh;
   height: 5vh;
-  /* border-style: solid;
-  border-width: thin;
-  border-color: black; */
   border-radius: 1vh;
 }
 

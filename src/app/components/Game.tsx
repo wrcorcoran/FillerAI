@@ -1,38 +1,37 @@
+import { useContext, useEffect, useReducer, useState } from "react";
+import { ReloadContext } from "../contexts/ReloadContext";
 import Board from "./Board";
 import ColorBar from "./ColorBar";
+import {
+    botChooseColor,
+    checkForTie,
+    checkForWinner,
+    createPlayers,
+    decideFirst,
+    hasTie,
+    hasWinner,
+    humanChooseColor,
+} from "./GameFunctions";
+import GameOver from "./GameOver";
 import Player from "./Player";
 import Scoreboard from "./Scoreboard";
 import styles from "./css/game.module.css";
-import {
-    decideFirst,
-    createPlayers,
-    humanChooseColor,
-    botChooseColor,
-    swapActivePlayer,
-    findSpaces,
-    validMove,
-    changeBoardState,
-    updateScore,
-    checkForWinner,
-    checkForTie,
-    hasWinner,
-    hasTie,
-} from "./GameFunctions";
-import { use, useCallback, useContext, useEffect, useState } from "react";
-import { ReloadContext } from "../contexts/ReloadContext";
 
 export default function Game() {
+    function reducer(active: any, action: any) {
+        return {
+            player: action.type,
+        };
+    }
+
     const { reload, setReload } = useContext(ReloadContext);
     const [builtGame, setBuiltGame] = useState(false);
+    const [active, dispatch] = useReducer(reducer, { player: "human" });
+    const [humanColorChoice, setHumanColorChoice] = useState("");
 
     const [human, setHuman] = useState<Player>(null as unknown as Player);
     const [bot, setBot] = useState<Player>(null as unknown as Player);
     const [board, setBoard] = useState<Board>(null as unknown as Board);
-
-    async function playerOneSetColor(color: string) {
-        await humanChooseColor(human, color, bot, board, setReload);
-        setReload(false);
-    }
 
     function playerOneGetColor() {
         return human.getColor();
@@ -56,74 +55,114 @@ export default function Game() {
         });
     }
 
-    const beginGame = useCallback(async () => {
+    const initializeGame = async () => {
         const newBoard = new Board();
         setBoard(newBoard);
-    }, [setBoard]);
+
+        let humanColor = newBoard.getHumanColor();
+        let botColor = newBoard.getBotColor();
+
+        let opening = await decideFirst();
+        let players = await createPlayers(opening, humanColor, botColor);
+
+        await setHumanPromise(players[0]);
+        await setBotPromise(players[1]);
+
+        setReload(false);
+        setBuiltGame(true);
+
+        dispatch({ type: "human" });
+    };
+
+    const humanTurn = async () => {
+        await humanChooseColor(
+            human,
+            humanColorChoice,
+            bot,
+            board,
+            dispatch,
+            setHumanColorChoice
+        );
+        checkForWinner([human, bot]);
+        checkForTie([human, bot]);
+    };
+
+    const botTurn = async () => {
+        await botChooseColor(board.getColors(), board, bot, human, dispatch);
+        checkForWinner([human, bot]);
+        checkForTie([human, bot]);
+    };
+
+    const handleGameTurn = async () => {
+        if (!hasWinner && !hasTie) {
+            if (active.player === "human") {
+                await humanTurn();
+            } else if (active.player === "bot") {
+                await botTurn();
+            }
+        }
+    };
 
     useEffect(() => {
-        if (!builtGame) beginGame();
-    }, [builtGame, beginGame]);
+        const build = async () => {
+            if (!builtGame) await initializeGame();
+        };
+        build();
+    }, [builtGame]);
 
     useEffect(() => {
-        const playGame = async () => {
-            console.log("playing");
-            console.log(reload);
-
-            if (hasWinner || hasTie) {
-                return;
-            }
-
-            if (bot.getActive()) {
-                await botChooseColor(board.COLORS, board, bot, human);
-                setReload(true);
-                setReload(false);
-            }
+        const play = async () => {
+            if (builtGame) await handleGameTurn();
         };
-
-        const setUp = async () => {
-            if (board) {
-                let humanColor = board.getHumanColor();
-                let botColor = board.getBotColor();
-
-                let opening = await decideFirst();
-                let players = await createPlayers(opening, humanColor, botColor);
-
-                await setHumanPromise(players[0]);
-                await setBotPromise(players[1]);
-                setReload(false);
-                setBuiltGame(true);
-
-                if (bot && human) playGame();
-            }
-        };
-
-        setUp();
-    }, [board, setReload, setBuiltGame]);
+        play();
+    }, [humanColorChoice]);
 
     return (
         <div className={styles.board_score}>
             {reload || human === null || bot === null ? (
-                <h1>generating game...</h1>
+                <div style={{ color: "black", marginTop: "10vh" }}>
+                    <h1>generating game...</h1>
+                </div>
             ) : (
                 <>
-                    <Scoreboard player="You" score={human.getScore()} />
+                    {hasWinner || hasTie ? (
+                        <GameOver
+                            humanScore={human.getScore()}
+                            botScore={bot.getScore()}
+                        />
+                    ) : (
+                        <>
+                            <div
+                                className={styles.board}
+                                style={{
+                                    opacity:
+                                        active.player === "human"
+                                            ? "100%"
+                                            : "20%",
+                                }}
+                            >
+                                {board.getView()}
+                                <div style={{ marginTop: "5%" }}>
+                                    <ColorBar
+                                        playerOneGetColor={playerOneGetColor}
+                                        playerTwoGetColor={playerTwoGetColor}
+                                        playerOneSetColor={setHumanColorChoice}
+                                    />
+                                </div>
+                            </div>
 
-                    <div
-                        className={styles.board}
-                        style={{ opacity: human.getActive() ? "100%" : "20%" }}
-                    >
-                        {board.getView()}
-                        <div style={{ marginTop: "5%" }}>
-                            <ColorBar
-                                playerOneGetColor={playerOneGetColor}
-                                playerTwoGetColor={playerTwoGetColor}
-                                playerOneSetColor={playerOneSetColor}
-                            />
-                        </div>
-                    </div>
-
-                    <Scoreboard player="Bot" score={bot.getScore()} />
+                            <div className={styles.bottom}>
+                                <Scoreboard
+                                    player="Human"
+                                    score={human.getScore()}
+                                />
+                                <Scoreboard
+                                    player="Bot"
+                                    score={bot.getScore()}
+                                />
+                            </div>
+                        </>
+                    )}
                 </>
             )}
         </div>

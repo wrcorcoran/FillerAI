@@ -12,7 +12,6 @@
   .board {
     display: flex;
     flex-direction: column;
-    margin-bottom: 5vh;
   }
   
   .title {
@@ -26,7 +25,14 @@
 
   .board_score {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }

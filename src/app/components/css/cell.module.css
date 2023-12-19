@@ -1,17 +1,26 @@
+/* styles the uncaptured cells */
 .cellNonCaptured {
-  width: 5vw;
-  height: 5vw;
+  width: 4vw;
+  height: 4vw;
   border-style: solid;
   border-width: thin;
   border-color: black;
 }
 
+/* styles the human captured cells */
 .cellCaptured {
-  width: 5vw;
-  height: 5vw;
+  width: 4vw;
+  height: 4vw;
   animation: blinker 2s linear infinite;
 }
 
+/* styles the bot captured cells */
+.cellCapturedBot {
+  width: 4vw;
+  height: 4vw;
+}
+
+/* add the blinking animation */
 @keyframes blinker {
   0% {
     opacity: 1;

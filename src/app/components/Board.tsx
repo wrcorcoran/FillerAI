@@ -1,4 +1,5 @@
 import Cell, { CellProps } from "./Cell";
+import Player from "./Player";
 import styles from "./css/board.module.css";
 
 class Board {
@@ -79,21 +80,29 @@ class Board {
         return cells;
     }
 
-    async changeCells(props: CellProps[]) {
-        props.forEach((cell) => {
-            console.log(cell);
-            this.board[Number(cell.location[0])][
-                Number(cell.location[1])
-            ].setColor(cell.color);
-            this.board[Number(cell.location[0])][
-                Number(cell.location[1])
-            ].setCaptured(cell.captured as boolean);
-            this.board[Number(cell.location[0])][
-                Number(cell.location[1])
-            ].setCapturedBy(cell.capturedBy as string);
-            console.log(
-                this.board[Number(cell.location[0])][Number(cell.location[1])]
-            );
+    async changeCells(
+        cellProps: CellProps[],
+        playerMap: Player["personalMap"],
+        color: any
+    ) {
+        return new Promise<void>(async (resolve, reject) => {
+            let tempColor = color;
+            cellProps.forEach((cell) => {
+                this.board[Number(cell.location[0])][
+                    Number(cell.location[1])
+                ].setCaptured(cell.captured as boolean);
+                this.board[Number(cell.location[0])][
+                    Number(cell.location[1])
+                ].setCapturedBy(cell.capturedBy as string);
+            });
+
+            for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 8; j++) {
+                    if (playerMap[i][j]) this.board[i][j].setColor(tempColor);
+                }
+            }
+
+            resolve();
         });
     }
 
@@ -139,6 +148,10 @@ class Board {
         });
 
         return { board: boardJSON };
+    }
+
+    getColors() {
+        return this.COLORS;
     }
 
     getView() {

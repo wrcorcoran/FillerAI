@@ -15,9 +15,9 @@ export default function Scoreboard(props: ScoreboardProps) {
             </div>
             <div className={styles.icon}>
                 {props.player === "Bot" ? (
-                    <FaComputer color="black" size={30} />
+                    <FaComputer color="black" size={15} />
                 ) : (
-                    <IoPerson color="black" size={30} />
+                    <IoPerson color="black" size={15} />
                 )}
             </div>
             <div className={styles.score}>

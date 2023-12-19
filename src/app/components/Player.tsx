@@ -26,7 +26,7 @@ class Player {
             this.score = props.score;
             this.type = props.type;
             if (this.type === "bot") {
-                this.addToMap("08");
+                this.addToMap("07");
             } else {
                 this.addToMap("60");
             }

@@ -4,6 +4,8 @@ Hi there! Welcome to Filler.
 Filler (or my version of it) is based off of a GamePigeon app of the same name.
 I've played Filler enough to consider myself pretty good at it, however, I'd consistently get beat even though I felt like I always had the strategic upperhand on my opponent. However, while this game is very random (as the colored pieces are randomly generated), I felt like there was a way to win every time. So, I decided to make an AI to help do that.
 
+**Please note:** my intentions here are not to build a beautiful website / game. Instead, I'd rather focus on the minimax algorithm. For the same reason, sizing might not work on all devices. Again, for the same reason, the front-end documentation isn't perfect, rather the back-end is. If you'd like to see good design, check out some of my other projects like *Verde*.  
+
 ## How to Play
 1. The human player begins in the bottom left corner.
 2. The AI begins in the top right corner.
@@ -29,14 +31,9 @@ I've played Filler enough to consider myself pretty good at it, however, I'd con
 2. There is no AI, yet!
 
 ## Features To Add
-1. Allow user to select a color
-2. Have bot randomly pick a color (for now)
-3. Check for win condition
 4. Send JSON to Python script (board + player states)
 5. Implement minimax algorithm
 6. Implement alpha-beta pruning
-7. Implement iterative deepening
-8. Test!
 
 ## Acknowledgements
 1. GamePigeon for the original game

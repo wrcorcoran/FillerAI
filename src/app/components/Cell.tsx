@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./css/cell.module.css";
 
+// props struct
 interface CellProps {
     location: string;
     color: string;
@@ -8,6 +9,7 @@ interface CellProps {
     capturedBy?: string;
 }
 
+// cell class
 class Cell {
     location: string;
     color: string;
@@ -58,8 +60,10 @@ class Cell {
             <div>
                 <div
                     className={
-                        this.capturedBy === "human"
-                            ? styles.cellCaptured
+                        this.captured
+                            ? this.capturedBy === "human"
+                                ? styles.cellCaptured
+                                : styles.cellCapturedBot
                             : styles.cellNonCaptured
                     }
                     style={{ backgroundColor: this.color }}

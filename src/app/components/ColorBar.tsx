@@ -3,16 +3,10 @@ import styles from "./css/colorBar.module.css";
 interface ColorBarProps {
     playerOneGetColor: () => string;
     playerTwoGetColor: () => string;
-    playerOneSetColor: (color: string) => void;
+    playerOneSetColor: any;
 }
 
 export default function ColorBar(props: ColorBarProps) {
-    console.log(
-        "getting colors:",
-        props.playerOneGetColor(),
-        props.playerTwoGetColor()
-    );
-
     let colors = [
         "#d9c027", // yellow
         "#3f97d1", // blue
@@ -22,69 +16,57 @@ export default function ColorBar(props: ColorBarProps) {
         "#494949", // black
     ];
 
-    function handleYellow() {
-        console.log(props.playerOneGetColor(), props.playerTwoGetColor());
-
+    async function handleYellow() {
         if (
             props.playerOneGetColor() !== colors[0] &&
             props.playerTwoGetColor() !== colors[0]
         ) {
-            props.playerOneSetColor(colors[0]);
+            await props.playerOneSetColor(colors[0]);
         }
     }
 
-    function handleBlue() {
-        console.log(props.playerOneGetColor(), props.playerTwoGetColor());
-
+    async function handleBlue() {
         if (
             props.playerOneGetColor() !== colors[1] &&
             props.playerTwoGetColor() !== colors[1]
         ) {
-            props.playerOneSetColor(colors[1]);
+            await props.playerOneSetColor(colors[1]);
         }
     }
 
-    function handleGreen() {
-        console.log(props.playerOneGetColor(), props.playerTwoGetColor());
-
+    async function handleGreen() {
         if (
             props.playerOneGetColor() !== colors[2] &&
             props.playerTwoGetColor() !== colors[2]
         ) {
-            props.playerOneSetColor(colors[2]);
+            await props.playerOneSetColor(colors[2]);
         }
     }
 
-    function handlePurple() {
-        console.log(props.playerOneGetColor(), props.playerTwoGetColor());
-
+    async function handlePurple() {
         if (
             props.playerOneGetColor() !== colors[3] &&
             props.playerTwoGetColor() !== colors[3]
         ) {
-            props.playerOneSetColor(colors[3]);
+            await props.playerOneSetColor(colors[3]);
         }
     }
 
-    function handleRed() {
-        console.log(props.playerOneGetColor(), props.playerTwoGetColor());
-
+    async function handleRed() {
         if (
             props.playerOneGetColor() !== colors[4] &&
             props.playerTwoGetColor() !== colors[4]
         ) {
-            props.playerOneSetColor(colors[4]);
+            await props.playerOneSetColor(colors[4]);
         }
     }
 
-    function handleBlack() {
-        console.log(props.playerOneGetColor(), props.playerTwoGetColor());
-
+    async function handleBlack() {
         if (
             props.playerOneGetColor() !== colors[5] &&
             props.playerTwoGetColor() !== colors[5]
         ) {
-            props.playerOneSetColor(colors[5]);
+            await props.playerOneSetColor(colors[5]);
         }
     }
 

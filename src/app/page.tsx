@@ -38,12 +38,7 @@ export default function Home() {
                 </div>
                 <div className={styles.main}>
                     <div className={styles.bar}>
-                        <h1
-                            className={styles.title}
-                            style={{ paddingBottom: "5%" }}
-                        >
-                            FillerAI
-                        </h1>
+                        <h1 className={styles.title}>FillerAI</h1>
                     </div>
                     <div className={styles.game}>
                         <Game />;

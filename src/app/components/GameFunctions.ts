@@ -7,7 +7,7 @@ let hasTie = false;
 
 function decideFirst() {
     return new Promise<string>((resolve, reject) => {
-        resolve(Math.random() < 0.5 ? "human" : "bot");
+        resolve("human");
     });
 }
 
@@ -15,7 +15,7 @@ function createPlayers(opening: string, humanColor: string, botColor: string) {
     return new Promise<Player[]>((resolve, reject) => {
         let human = new Player({
             color: humanColor,
-            personalMap: Array(7).fill(Array(8).fill(false)),
+            personalMap: Array.from(Array(7), (_) => Array(8).fill(false)),
             score: 1,
             type: "human",
             active: opening === "human" ? true : false,
@@ -23,7 +23,7 @@ function createPlayers(opening: string, humanColor: string, botColor: string) {
 
         let bot = new Player({
             color: botColor,
-            personalMap: Array(7).fill(Array(8).fill(false)),
+            personalMap: Array.from(Array(7), (_) => Array(8).fill(false)),
             score: 1,
             type: "bot",
             active: opening === "bot" ? true : false,
@@ -38,7 +38,8 @@ async function humanChooseColor(
     color: string,
     bot: Player,
     board: Board,
-    setReload: (reload: boolean) => void
+    dispatch: any,
+    setHumanColorChoice: any
 ) {
     return new Promise<void>(async (resolve, reject) => {
         human.setColor(color);
@@ -48,8 +49,9 @@ async function humanChooseColor(
 
         updateScore(human, num);
         swapActivePlayer([human, bot]);
+        setHumanColorChoice("");
 
-        setReload(true);
+        dispatch({ type: "bot" });
         resolve();
     });
 }
@@ -58,11 +60,12 @@ function botChooseColor(
     colors: string[],
     board: Board,
     bot: Player,
-    human: Player
+    human: Player,
+    dispatch: any
 ) {
     return new Promise<void>(async (resolve, reject) => {
         let availableColors = colors.filter(
-            (color) => color !== bot.getColor() || color !== human.getColor()
+            (color) => color !== human.getColor() && color !== bot.getColor()
         );
 
         let color =
@@ -70,9 +73,13 @@ function botChooseColor(
 
         let spaces = await findSpaces(board, bot, color);
         let num = await changeBoardState(spaces, board, color, bot);
+
+        bot.setColor(color);
         updateScore(bot, num);
         swapActivePlayer([human, bot]);
-        console.log("swapped");
+
+        dispatch({ type: "human" });
+
         resolve();
     });
 }
@@ -89,7 +96,6 @@ function findSpaces(b: Board, p: Player, color: string) {
         for (let i = 0; i < b.board.length; i++) {
             for (let j = 0; j < b.board[i].length; j++) {
                 if (validMove(b, p, color, i, j)) {
-                    console.log("valid move", i, j);
                     spaces.push([i, j]);
                 }
             }
@@ -135,10 +141,10 @@ async function changeBoardState(
     color: string,
     player: Player
 ) {
-    return new Promise<number>((resolve, reject) => {
+    return new Promise<number>(async (resolve, reject) => {
         let cells: CellProps[] = [];
         for (let i = 0; i < spaces.length; i++) {
-            console.log("board state", spaces[i]);
+            player.addToMap(spaces[i]);
             cells.push({
                 location: spaces[i],
                 color: color,
@@ -147,7 +153,7 @@ async function changeBoardState(
             });
         }
 
-        board.changeCells(cells);
+        await board.changeCells(cells, player.personalMap, color);
 
         resolve(spaces.length);
     });
@@ -175,17 +181,6 @@ function checkForTie(players: Player[]) {
 }
 
 export {
-    decideFirst,
-    createPlayers,
-    humanChooseColor,
-    botChooseColor,
-    swapActivePlayer,
-    findSpaces,
-    validMove,
-    changeBoardState,
-    updateScore,
-    checkForWinner,
-    checkForTie,
-    hasWinner,
-    hasTie,
+    botChooseColor, changeBoardState, checkForTie, checkForWinner, createPlayers, decideFirst, findSpaces, hasTie, hasWinner, humanChooseColor, swapActivePlayer, updateScore, validMove
 };
+
