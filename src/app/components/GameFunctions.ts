@@ -1,9 +1,36 @@
+import { send } from "process";
 import Board from "./Board";
 import { CellProps } from "./Cell";
 import Player from "./Player";
+import axios from "axios";
 
 let hasWinner = false;
 let hasTie = false;
+
+const sendData = async (jsonData: any) => {
+    try {
+        const response = await axios.post("/api/to-backend", jsonData);
+        console.log(response.data.message);
+        // Handle the response or update your component state accordingly
+    } catch (error) {
+        console.error(error);
+        // Handle errors if necessary
+    }
+};
+
+const fetchData = async () => {
+    try {
+        const response = await axios.get("/api/from-backend");
+        console.log(response.data.message);
+    } catch (error) {
+        console.error(error);
+        // Handle errors if necessary
+    }
+};
+
+const makeJSON = (human: Player, bot: Player, board: Board) => {
+    return [board.getJSON(), human.getJSON(), bot.getJSON()];
+};
 
 function decideFirst() {
     return new Promise<string>((resolve, reject) => {
@@ -64,6 +91,10 @@ function botChooseColor(
     dispatch: any
 ) {
     return new Promise<void>(async (resolve, reject) => {
+        let data = makeJSON(human, bot, board);
+        await sendData(data);
+        await fetchData();
+
         let availableColors = colors.filter(
             (color) => color !== human.getColor() && color !== bot.getColor()
         );
@@ -181,6 +212,17 @@ function checkForTie(players: Player[]) {
 }
 
 export {
-    botChooseColor, changeBoardState, checkForTie, checkForWinner, createPlayers, decideFirst, findSpaces, hasTie, hasWinner, humanChooseColor, swapActivePlayer, updateScore, validMove
+    botChooseColor,
+    changeBoardState,
+    checkForTie,
+    checkForWinner,
+    createPlayers,
+    decideFirst,
+    findSpaces,
+    hasTie,
+    hasWinner,
+    humanChooseColor,
+    swapActivePlayer,
+    updateScore,
+    validMove,
 };
-

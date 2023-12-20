@@ -27,8 +27,7 @@ I've played Filler enough to consider myself pretty good at it, however, I'd con
 > EXPAND HERE
 
 ## Known Errors
-1. Currently, the sizing is a little off. It works on most devices, but isn't supported on mobile or odd shaped monitors.
-2. There is no AI, yet!
+1. There is no AI, yet!
 
 ## Features To Add
 4. Send JSON to Python script (board + player states)

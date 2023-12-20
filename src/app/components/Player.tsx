@@ -79,20 +79,21 @@ class Player {
         }[] = [];
         let rowIndex = 0;
 
-        this.personalMap.forEach((row) => {
-            let colIndex = 0;
-            let tempRow: { [colIndex: number]: Boolean }[] = [];
-            row.forEach((cell) => {
-                tempRow.push({
-                    [colIndex]: cell,
-                });
-                colIndex++;
-            });
-            tempMap.push({ [rowIndex]: tempRow });
-            rowIndex++;
-        });
+        // this.personalMap.forEach((row) => {
+        //     let colIndex = 0;
+        //     let tempRow: { [colIndex: number]: Boolean }[] = [];
+        //     row.forEach((cell) => {
+        //         tempRow.push({
+        //             [colIndex]: cell,
+        //         });
+        //         colIndex++;
+        //     });
+        //     tempMap.push({ [rowIndex]: tempRow });
+        //     rowIndex++;
+        // });
 
-        let tempJSON = { color: this.color, score: this.score, map: tempMap };
+        // let tempJSON = { color: this.color, score: this.score, map: tempMap };
+        let tempJSON = { color: this.color, score: this.score };
         return { [this.type]: tempJSON };
     }
 }

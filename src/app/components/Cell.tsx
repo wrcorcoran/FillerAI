@@ -50,7 +50,7 @@ class Cell {
         return {
             location: this.location,
             color: this.color,
-            captured: this.captured,
+            captured: (this.captured)?.toString(),
             capturedBy: this.capturedBy,
         };
     }

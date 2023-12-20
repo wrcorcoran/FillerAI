@@ -120,7 +120,7 @@ class Board {
                 [colIndex: number]: {
                     location: string;
                     color: string;
-                    captured: boolean | undefined;
+                    captured: string | undefined;
                     capturedBy: string | undefined;
                 };
             }[];
@@ -132,7 +132,7 @@ class Board {
                 [colIndex: number]: {
                     location: string;
                     color: string;
-                    captured: boolean | undefined;
+                    captured: string | undefined;
                     capturedBy: string | undefined;
                 };
             }[] = [];
