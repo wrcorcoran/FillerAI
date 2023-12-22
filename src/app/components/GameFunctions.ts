@@ -42,12 +42,10 @@ async function humanChooseColor(
     dispatch: any,
     setHumanColorChoice: any
 ) {
-    // console.log("HERE HUMAN");
     return new Promise<void>(async (resolve, reject) => {
         human.setColor(color);
 
         let spaces = await findSpaces(board, human, color);
-        // console.log(spaces)
         let num = await changeBoardState(spaces, board, color, human);
 
         updateScore(human, num);
@@ -152,8 +150,6 @@ async function changeBoardState(
                 capturedBy: player.getType(),
             });
         }
-
-        // console.log("personal map:", player.personalMap)
 
         await board.changeCells(cells, player.personalMap, color);
 

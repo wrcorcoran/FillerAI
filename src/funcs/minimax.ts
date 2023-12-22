@@ -3,6 +3,21 @@ import Player from "@/app/components/Player";
 import evalFunction from "./eval";
 import { alterBoard, isGameOver } from "./util";
 
+/**
+ * minimax() is the standard minimax with alpha beta pruning
+ * algorithm.
+ *
+ * @param board - current board at each play
+ * @param depth - depth of search
+ * @param alpha - alpha constant for pruning
+ * @param beta - beta constant for pruning
+ * @param isMaximizing - is it the bot?
+ * @param colors - choice of colors
+ * @param bot - bot player object
+ * @param human - human player object
+ * @param selectionColor - color being tested
+ * @returns - promise containing optimal color and its value
+ */
 export async function minimax(
     board: Board,
     depth: any,
@@ -14,9 +29,6 @@ export async function minimax(
     human: Player,
     selectionColor: string
 ): Promise<[string, number]> {
-    // console.log("depth:", depth)
-    // console.log("board", board)
-
     if (isGameOver(board)) {
         return [selectionColor, depth * evalFunction(board)];
     }
@@ -59,16 +71,6 @@ export async function minimax(
                 bestColor = color;
             }
 
-            // tempVal = temp[1]
-
-            // bestVal = Math.max(bestVal, tempVal);
-
-            // if (bestVal === tempVal) {
-            //     // console.log("best max:", bestVal)
-            //     // console.log("best max:", color)
-            //     bestColor = color;
-            // }
-
             alpha = Math.max(alpha, bestVal);
 
             if (beta <= alpha) {
@@ -105,14 +107,6 @@ export async function minimax(
                 bestVal = tempVal;
                 bestColor = color;
             }
-
-            // bestVal = Math.min(bestVal, tempVal);
-
-            // if (bestVal === tempVal) {
-            //     // console.log("best min:", bestVal)
-            //     // console.log("best min:", color)
-            //     bestColor = color;
-            // }
 
             beta = Math.min(beta, bestVal);
 

@@ -34,8 +34,6 @@ async function changeBoardState(
             });
         }
 
-        // console.log("cells: ", cells)
-
         await board.changeCells(cells, player.personalMap, color);
 
         resolve(board);
@@ -45,9 +43,13 @@ async function changeBoardState(
 export async function alterBoard(b: Board, color: string, player: Player) {
     return new Promise<Board>(async (resolve, reject) => {
         let spaces = await findSpaces(b, player, color);
-        // console.log("player: ", player.getType(), " , space: ", spaces)
-        let tempBoard = await changeBoardState(spaces, b.cloneBoard(), color, player);
-    
+        let tempBoard = await changeBoardState(
+            spaces,
+            b.cloneBoard(),
+            color,
+            player
+        );
+
         resolve(tempBoard);
-    })
+    });
 }

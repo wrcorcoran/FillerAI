@@ -83,7 +83,6 @@ class Board {
     cloneBoard(): Board {
         const clonedBoard = new Board();
 
-        // Clone each cell in the board
         for (let i = 0; i <= this.BOARD_HEIGHT; i++) {
             for (let j = 0; j <= this.BOARD_WIDTH; j++) {
                 const originalCell = this.board[i][j];
@@ -97,8 +96,6 @@ class Board {
                 clonedBoard.board[i][j] = clonedCell;
             }
         }
-
-        // console.log(clonedBoard)
 
         return clonedBoard;
     }
