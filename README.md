@@ -6,6 +6,8 @@ I've played Filler enough to consider myself pretty good at it, however, I'd con
 
 **Please note:** my intentions here are not to build a beautiful website / game. Instead, I'd rather focus on the minimax algorithm. For the same reason, sizing might not work on all devices. Again, for the same reason, the front-end documentation isn't perfect, rather the back-end is. If you'd like to see good design, check out some of my other projects like *Verde*.  
 
+**Also:** Initially, I'd planned to use Python as my backend. However, GitHub pages doesn't support non-static pages, so instead, regregrettably, I'm just gonna do the algorithm in JavaScript. 
+
 ## How to Play
 1. The human player begins in the bottom left corner.
 2. The AI begins in the top right corner.
@@ -20,7 +22,7 @@ I've played Filler enough to consider myself pretty good at it, however, I'd con
 
 ## Technologies Used
 1. Next.js
-2. Python + libraries
+2. TypeScript
 
 ## Technical Details
 1. The AI is based off of a minimax algorithm with alpha-beta pruning.
@@ -30,7 +32,6 @@ I've played Filler enough to consider myself pretty good at it, however, I'd con
 1. There is no AI, yet!
 
 ## Features To Add
-4. Send JSON to Python script (board + player states)
 5. Implement minimax algorithm
 6. Implement alpha-beta pruning
 

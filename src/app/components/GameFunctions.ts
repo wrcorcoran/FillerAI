@@ -1,36 +1,10 @@
-import { send } from "process";
 import Board from "./Board";
 import { CellProps } from "./Cell";
 import Player from "./Player";
-import axios from "axios";
+import handleBotChoice from "../../funcs/handleChoice";
 
 let hasWinner = false;
 let hasTie = false;
-
-const sendData = async (jsonData: any) => {
-    try {
-        const response = await axios.post("/api/to-backend", jsonData);
-        console.log(response.data.message);
-        // Handle the response or update your component state accordingly
-    } catch (error) {
-        console.error(error);
-        // Handle errors if necessary
-    }
-};
-
-const fetchData = async () => {
-    try {
-        const response = await axios.get("/api/from-backend");
-        console.log(response.data.message);
-    } catch (error) {
-        console.error(error);
-        // Handle errors if necessary
-    }
-};
-
-const makeJSON = (human: Player, bot: Player, board: Board) => {
-    return [board.getJSON(), human.getJSON(), bot.getJSON()];
-};
 
 function decideFirst() {
     return new Promise<string>((resolve, reject) => {
@@ -68,15 +42,17 @@ async function humanChooseColor(
     dispatch: any,
     setHumanColorChoice: any
 ) {
+    // console.log("HERE HUMAN");
     return new Promise<void>(async (resolve, reject) => {
         human.setColor(color);
 
         let spaces = await findSpaces(board, human, color);
+        // console.log(spaces)
         let num = await changeBoardState(spaces, board, color, human);
 
         updateScore(human, num);
         swapActivePlayer([human, bot]);
-        setHumanColorChoice("");
+        setHumanColorChoice("bot");
 
         dispatch({ type: "bot" });
         resolve();
@@ -88,19 +64,12 @@ function botChooseColor(
     board: Board,
     bot: Player,
     human: Player,
-    dispatch: any
+    dispatch: any,
+    setHumanColorChoice: any
 ) {
     return new Promise<void>(async (resolve, reject) => {
-        let data = makeJSON(human, bot, board);
-        await sendData(data);
-        await fetchData();
-
-        let availableColors = colors.filter(
-            (color) => color !== human.getColor() && color !== bot.getColor()
-        );
-
-        let color =
-            availableColors[Math.floor(Math.random() * availableColors.length)];
+        let color = "";
+        color = await handleBotChoice(board.cloneBoard(), human, bot, colors);
 
         let spaces = await findSpaces(board, bot, color);
         let num = await changeBoardState(spaces, board, color, bot);
@@ -183,6 +152,8 @@ async function changeBoardState(
                 capturedBy: player.getType(),
             });
         }
+
+        // console.log("personal map:", player.personalMap)
 
         await board.changeCells(cells, player.personalMap, color);
 

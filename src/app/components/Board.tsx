@@ -80,6 +80,29 @@ class Board {
         return cells;
     }
 
+    cloneBoard(): Board {
+        const clonedBoard = new Board();
+
+        // Clone each cell in the board
+        for (let i = 0; i <= this.BOARD_HEIGHT; i++) {
+            for (let j = 0; j <= this.BOARD_WIDTH; j++) {
+                const originalCell = this.board[i][j];
+                const clonedCell = new Cell({
+                    location: originalCell.location,
+                    color: originalCell.getColor(),
+                    captured: originalCell.getCaptured(),
+                    capturedBy: originalCell.getCapturedBy(),
+                });
+
+                clonedBoard.board[i][j] = clonedCell;
+            }
+        }
+
+        // console.log(clonedBoard)
+
+        return clonedBoard;
+    }
+
     async changeCells(
         cellProps: CellProps[],
         playerMap: Player["personalMap"],
