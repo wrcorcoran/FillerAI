@@ -8,6 +8,8 @@ I've played Filler enough to consider myself pretty good at it, however, I'd con
 
 **Also:** Initially, I'd planned to use Python as my backend. However, GitHub pages doesn't support non-static pages, so instead, regregrettably, I'm just gonna do the algorithm in JavaScript. 
 
+Due to computation time, there is a 9-step limit. This doesn't make the AI unbeatable, but it still suffices. From my playing (and I'd consider myself pretty good at Filler), the bot wins about 90% of the time. In my opinion, pretty solid!
+
 ## How to Play
 1. The human player begins in the bottom left corner.
 2. The AI begins in the top right corner.
@@ -28,14 +30,6 @@ I've played Filler enough to consider myself pretty good at it, however, I'd con
 1. The AI is based off of a minimax algorithm with alpha-beta pruning.
 > EXPAND HERE
 
-## Known Errors
-1. There is no AI, yet!
-
-## Features To Add
-5. Implement minimax algorithm
-6. Implement alpha-beta pruning
-
 ## Acknowledgements
 1. GamePigeon for the original game
 2. Next.js for this beautiful framework
-3. Guido van Rossum for designing a wonderful language
