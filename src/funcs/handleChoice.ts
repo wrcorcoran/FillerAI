@@ -14,7 +14,7 @@ export default async function handleBotChoice(
 
         await minimax(
             board.cloneBoard(),
-            11,
+            9,
             -Infinity,
             +Infinity,
             true,
