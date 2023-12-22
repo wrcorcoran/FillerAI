@@ -24,7 +24,12 @@ export default function evalFunction(b: Board) {
         }
     }
 
-    let val = (bot_mult - human_mult) * (bot - human)
+    // let val = (bot_mult - human_mult) * (bot - human) // return (human_mult > bot_mult && human > bot) ? -1 * val : val;
+
+    let inside = human_mult !== 0 ? bot_mult / human_mult : 0;
+    let raised = Math.pow(inside, bot - human);
+    let rooted = Math.pow(raised, (1 / (Math.pow(Math.E, Math.E))));
+    let output = (bot - human) * rooted;
 
     // for (let i = 0; i < 7; i++) {
     //     for (let j = 0; j < 8; j++) {
@@ -42,5 +47,5 @@ export default function evalFunction(b: Board) {
 
     // bot_mult - human_mult + 56 * (bot - human);
 
-    return (human_mult > bot_mult && human > bot) ? -1 * val : val;
+    return output
 }
