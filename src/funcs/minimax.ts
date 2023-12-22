@@ -17,7 +17,11 @@ export async function minimax(
     // console.log("depth:", depth)
     // console.log("board", board)
 
-    if (depth <= 0 || isGameOver(board)) return([selectionColor, evalFunction(board)]);
+    if (isGameOver(board)) {
+        return([selectionColor, depth * evalFunction(board)]);
+    }
+
+    if (depth <= 0) return([selectionColor, evalFunction(board)]);
 
     let humanColor = board.board[6][0].getColor();
     let botColor = board.board[0][7].getColor();

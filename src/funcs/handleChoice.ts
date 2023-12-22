@@ -18,10 +18,10 @@ export default async function handleBotChoice(
             -Infinity,
             +Infinity,
             true,
-            colors,
+            colors_list,
             bot,
             human,
-            ""
+            "",
         ).then(([tS, tV]) => {
             color = tS;
             console.log(color);
