@@ -10,7 +10,7 @@ export default async function handleBotChoice(
 ) {
     return new Promise<string>(async (resolve) => {
         let color = "";
-        let colors_list = (colors: any) => [...colors].sort(() => 0.5 - Math.random());
+        let colors_list = [...colors].sort(() => 0.5 - Math.random());
 
         await minimax(
             board.cloneBoard(),

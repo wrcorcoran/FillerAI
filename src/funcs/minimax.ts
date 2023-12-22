@@ -12,16 +12,16 @@ export async function minimax(
     colors: any,
     bot: Player,
     human: Player,
-    selectionColor: string,
-) : Promise<[string, number]> {
+    selectionColor: string
+): Promise<[string, number]> {
     // console.log("depth:", depth)
     // console.log("board", board)
 
     if (isGameOver(board)) {
-        return([selectionColor, depth * evalFunction(board)]);
+        return [selectionColor, depth * evalFunction(board)];
     }
 
-    if (depth <= 0) return([selectionColor, evalFunction(board)]);
+    if (depth <= 0) return [selectionColor, evalFunction(board)];
 
     let humanColor = board.board[6][0].getColor();
     let botColor = board.board[0][7].getColor();
@@ -36,8 +36,8 @@ export async function minimax(
 
         for (const color of availableColors) {
             let tempVal = -Infinity;
-            let tempBoard = await alterBoard(board.cloneBoard(), color, bot)
-            let tempCol = ""
+            let tempBoard = await alterBoard(board.cloneBoard(), color, bot);
+            let tempCol = "";
 
             let temp = await minimax(
                 tempBoard,
@@ -49,14 +49,14 @@ export async function minimax(
                 bot,
                 human,
                 color
-            )
+            );
 
-            tempCol = temp[0]
-            tempVal = temp[1]
-            
+            tempCol = temp[0];
+            tempVal = temp[1];
+
             if (tempVal > bestVal) {
-                bestVal = tempVal
-                bestColor = color
+                bestVal = tempVal;
+                bestColor = color;
             }
 
             // tempVal = temp[1]
@@ -83,8 +83,8 @@ export async function minimax(
 
         for (const color of availableColors) {
             let tempVal = +Infinity;
-            let tempBoard = await alterBoard(board.cloneBoard(), color, human)
-            let tempCol = ""
+            let tempBoard = await alterBoard(board.cloneBoard(), color, human);
+            let tempCol = "";
 
             let temp = await minimax(
                 tempBoard,
@@ -96,14 +96,14 @@ export async function minimax(
                 bot,
                 human,
                 color
-            )
+            );
 
-            tempCol = temp[0]
-            tempVal = temp[1]
-            
+            tempCol = temp[0];
+            tempVal = temp[1];
+
             if (tempVal < bestVal) {
-                bestVal = tempVal
-                bestColor = color
+                bestVal = tempVal;
+                bestColor = color;
             }
 
             // bestVal = Math.min(bestVal, tempVal);

@@ -75,8 +75,6 @@ export default function Game() {
     };
 
     const humanTurn = async () => {
-        checkForWinner([human, bot]);
-        checkForTie([human, bot]);
         await humanChooseColor(
             human,
             humanColorChoice,
@@ -90,9 +88,14 @@ export default function Game() {
     };
 
     const botTurn = async () => {
-        checkForWinner([human, bot]);
-        checkForTie([human, bot]);
-        await botChooseColor(board.getColors(), board, bot, human, dispatch, setHumanColorChoice);
+        await botChooseColor(
+            board.getColors(),
+            board,
+            bot,
+            human,
+            dispatch,
+            setHumanColorChoice
+        );
         checkForWinner([human, bot]);
         checkForTie([human, bot]);
     };
@@ -116,7 +119,12 @@ export default function Game() {
 
     useEffect(() => {
         const play = async () => {
-            if (builtGame) await handleGameTurn();
+            if (builtGame) {
+                await handleGameTurn();
+
+                checkForWinner([human, bot]);
+                checkForTie([human, bot]);
+            }
         };
         play();
     }, [humanColorChoice]);
